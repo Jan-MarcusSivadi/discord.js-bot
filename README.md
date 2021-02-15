@@ -7,6 +7,8 @@ Includes the following commands:
 Also keeps track of messages sent in Server Channels by using console.
 To run the bot, use 'nodemon run server.js' command.
 
+To install the required modules, use 'npm i' or 'npm install' command.
+
 Requires .env file to be created in the root directory:
   DISCORDJS_BOT_TOKEN = [your_bot_token];
   
