@@ -7,6 +7,7 @@ Currently includes the following commands:
 Also keeps track of messages sent in Server Channels by using the Terminal.
 
 To run the bot, use 'npm run dev' command.
+To stop the bot, press 'Ctrl+C'.
 
 To install the required modules, use 'npm i' or 'npm install' command.
 
