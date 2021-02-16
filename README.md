@@ -4,7 +4,7 @@ Includes the following commands:
   !kick [user]
   !ban [user]
   
-Also keeps track of messages sent in Server Channels by using console.
+Also keeps track of messages sent in Server Channels by using the Terminal.
 To run the bot, use 'npm run dev' command.
 
 To install the required modules, use 'npm i' or 'npm install' command.
