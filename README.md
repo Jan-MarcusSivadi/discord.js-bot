@@ -1,6 +1,6 @@
 # DiscordJS-BOT
 basic commands for your Discord Server channels.
-Includes the following commands:
+Currently includes the following commands:
   !kick [user]
   !ban [user]
   
