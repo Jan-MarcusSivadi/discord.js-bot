@@ -1,5 +1,7 @@
 # discord.js-bot
 basic commands for your Discord Server channels.
+
+
 Currently includes the following commands:
   !kick [user]
   !ban [user]
@@ -19,3 +21,4 @@ Requires .env file to be created in the root directory:
 
 Is built using Node.js which uses discord.js modules.
 See more here: https://github.com/discordjs/discord.js/
+
