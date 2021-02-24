@@ -64,8 +64,10 @@ client.on('message', message => {
     const channelID = '707001372788391977';
     const channel = client.channels.cache.get(channelID);
 
+    const parsed_msg = message.content.toLowerCase();
+
     if (hasPrefix) {
-        const [CMD_NAME, ...args] = message.content
+        const [CMD_NAME, ...args] = parsed_msg
             .trim()
             .substring(PREFIX.length)
             .split(/\s+/);
@@ -73,53 +75,109 @@ client.on('message', message => {
         console.log('args: ');
         console.log(args);
 
-        if (CMD_NAME === 'kick') {
+        // all commands
+        var COMMANDS = ['kick', 'ban', 'avatar', 'help'];
+
+        // KICK
+        if (CMD_NAME === COMMANDS[0]) 
+        {
+            if (!message.guild) return message.channel.send(`You can\'t use this command here.`);
             if (!message.member.hasPermission('KICK_MEMBERS'))
-                return message.reply('You do not have permission to use that command.')
+                return message.reply('you do not have permission to use that command.');
             if (args.length === 0)
-                return message.reply('Please provide an ID');
+                return message.reply('please provide an ID.');
             const member = message.guild.members.cache.get(args[0]);
             if (member) {
                 member
-                    .kick()
+                    .kick('Bad member!')
                     .then((member) => message.channel.send(`${member} was kicked.`))
-                    .catch((err) => message.channel.send('I don\'t have permission to kick that user :('));
+                    .catch((err) => {
+                        console.log(err);
+                        message.channel.send('I don\'t have permission to kick that user.');
+                    });
             } else {
                 message.channel.send('That member was not found.');
             }
-        } else if (CMD_NAME === 'ban') {
-            if (!message.member.hasPermission('BAN_MEMBERS'))
-                return message.reply('You do not have permission to use that command.')
-            if (args.length === 0)
-                return message.reply('Please provide an ID');
 
-            message.guild.members.ban(args[0])
-                .catch((err) => console.log(err))
-        } else {
-            message.reply('No such command exists.');
         }
+        // BAN
+        else if (CMD_NAME === COMMANDS[1])
+        {
+            if (!message.guild) return message.channel.send(`You can\'t use this command here.`);
+            if (!message.member.hasPermission('BAN_MEMBERS'))
+                return message.reply('you do not have permission to use that command.')
+            if (args.length === 0)
+                return message.reply('please provide an ID.');
+
+            const member = message.guild.members.cache.get(args[0]);
+            if (member) {
+                member
+                    .ban('Very bad member!')
+                    .then((member) => message.channel.send(`${member} was banned.`))
+                    .catch((err) => {
+                        console.log(err);
+                        message.channel.send('I don\'t have permission to ban that user.');
+                    });
+            } else {
+                message.channel.send('That member was not found.');
+            }
+
+        }
+        // AVATAR
+        else if (CMD_NAME === COMMANDS[2]) {
+            message.reply(message.author.displayAvatarURL());
+        }
+        // HELP
+        else if (CMD_NAME === COMMANDS[3]) {
+            message.reply('Here is the list of all commands: ');
+            COMMANDS.forEach(function (Command) {
+                message.channel.send("!"+Command);
+            });
+        }
+        // UNKNOWN
+        else {
+            message.reply('no such command exists.');
+        }
+    // CHAT w USER
+    } else {
+        // return if user hasn't pinged bot
+        if (!message.mentions.has(client.user.id)) return;
+
+        // get parsed message
+        const MESSAGE = parsed_msg;
+
+        // all recievable messages
+        var HELLO_1a = ['hi', 'hey', 'hello', 'heya', 'good morning', 'good afternoon', 'good evening', 'morning!'];
+        var BYE_1a = ['bye', 'see ya', 'see you', 'see you next time'];
+
+        var SENTENCE_TYPE = null;
+
+        // GREETING
+        HELLO_1a.forEach(function (Word) {``
+            if (MESSAGE.includes(Word)) SENTENCE_TYPE = "greeting";
+        });
+        // GOODBYE
+        BYE_1a.forEach(function (Word) {
+            if (MESSAGE.includes(Word)) SENTENCE_TYPE = "goodbye";
+        });
+
+        // all repliable messages
+        var HELLO_2a = ['hi!', 'hey!', 'hello!', 'heya!', 'have we met before?'];
+        var BYE_2a = ['bye!', 'see ya!', 'see you!', 'see you next time!', 'I\'ll be waiting!', 'you can send me messages any time ;)', 'I\'ll be here if you need me.'];
+
+        // choose some random sentence from array to reply with
+        if (SENTENCE_TYPE === 'greeting') {
+            var REPLY = HELLO_2a[Math.floor(Math.random() * HELLO_2a.length)];
+        }
+        else if (SENTENCE_TYPE === 'goodbye') {
+            var REPLY = BYE_2a[Math.floor(Math.random() * BYE_2a.length)];
+        }
+        // cancel reply to user
+        else REPLY = 'hey there! Do you need help with anything?';
+
+        // reply to user
+        message.reply(REPLY);
     }
-
-    // command string format
-    // const args = message.content.slice(PREFIX.length).trim().split(' ');
-    // if (!hasPrefix || author.bot) return;
-    // if (command === 'avatar') {
-    //     const user = message.author;
-
-    //     return message.channel.send(`${user.username}'s avatar: ${user.displayAvatarURL({ dynamic: true })}`);
-    // }
-    // else if (command === 'say') {
-    //     message.channel.send(`${args}`);
-    //     if (!args.length) message.reply(`You didn't provide any arguments, ${author}!\n example: $say [your message]`);
-    //     else channel.send(`${args}`);
-    //     return;
-    // }
-    // else {
-    //     if (command.length < 1) return;
-    //     message.reply('That command doesn\'t exist :(');
-    //     return;
-    // }
-
 });
 
 // Log the bot in
