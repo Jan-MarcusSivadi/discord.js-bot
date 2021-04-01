@@ -2,7 +2,7 @@ require("dotenv").config();
 
 // "dev": "nodemon ./src/bot.js"
 // Get client token
-const token = ;      //process.env.DISCORDJS_BOT_TOKEN;
+const token = process.env.DISCORDJS_BOT_TOKEN;     //process.env.DISCORDJS_BOT_TOKEN;
 
 // Get the bot client
 const { Client } = require("discord.js");
