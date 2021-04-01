@@ -4,6 +4,8 @@ basic commands for your Discord Server channels.
 Currently includes the following commands:
   !kick [user]
   !ban [user]
+  !avatar
+  !help
   
 Also keeps track of messages sent in Server Channels by using the Terminal.
 
